@@ -1,0 +1,43 @@
+<muppet>
+<datasource name="master" default="false">
+	<url value="jdbc:mysql://localhost:3306/study?Unicode=true"/>
+	<username value="root"/>
+	<password value="yuhaiqiang"/>
+</datasource>
+
+<datasource name="slave" default="true">
+	<url value="jdbc:mysql://localhost:3306/studyslave?Unicode=true"/>
+	<username value="root"/>
+	<password value="yuhaiqiang"/>
+</datasource>
+
+<entity>
+<package name="cn.bronzeware.muppet.entities" datasource="master"/>
+<package name="cn.bronzeware.muppet.entities" datasource="slave"/>
+</entity>
+
+<buildtable value="false"></buildtable>
+
+<table tableName="tb_bloghouse" domainObjectName="BlogHouse"></table>
+
+<generate packageName="cn.bronzeware.test1"></generate>
+
+<!-- --新的表格模板 -->
+<muppet>
+	<data-sources>
+		<data-source name='' default='' properties=''>
+			<property name='' value=''></property>
+		</data-source>
+	</data-sources>
+	
+	<tables generage-model='false' model-base-name='' data-source=''>
+		<table name='' model='' generage-model='false' data-source='' generate-sql='false' generate-sql-path=''>
+			<column></column>
+		</table>
+	</tables>
+	
+</muppet>
+
+
+
+</muppet>
