@@ -8,6 +8,9 @@ import com.muppet.data.datasource.EntityPackage;
 import com.muppet.data.datasource.EntityPkgOnDataSourceConfig;
 import com.muppet.data.listener.*;
 import com.muppet.data.resource.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.util.ReflectionUtils;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -21,7 +24,9 @@ public class ResourceContext implements Contained,Listened{
 	public Container<String, ResourceInfo> getContainer(){
 		return this.container;
 	}
-	
+
+	private Logger logger = LogManager.getLogger(this.getClass());
+
 	private  boolean isBooted = false;
 	private  boolean isBuilded = true;
 
@@ -124,7 +129,8 @@ public class ResourceContext implements Contained,Listened{
 				resolver = new StandardDBCheckResolver(check, dataSourceManager.getDatasourceListener());
 			}
 			resourceBuild = new StandardResourceBuilder(applicationContext, check, dataSourceUtil);
-			
+
+
 			Map<String, Class<?>[]> map = resourceLoader.loadClass(new String[]{pkgName});
 			resolveResource(map);
 			try{

@@ -1,5 +1,7 @@
 package com.muppet.data.core;
 
+import com.muppet.data.annotations.Table;
+import com.muppet.data.util.ClassScanner;
 import com.muppet.util.reflect.ReflectUtil;
 
 import java.io.File;
@@ -10,6 +12,7 @@ import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class StandardResourceLoader implements ResourceLoad{
 
@@ -34,13 +37,15 @@ public class StandardResourceLoader implements ResourceLoad{
 	public Map<String, Class<?>[]> loadClass(String[] packetname)
 	 throws InitException{
 		assert packetname!=null;
+		ClassScanner scanner = new ClassScanner();
  		/**
 		 * 实例化一个map这个map将会随着方法调用而传递
 		 */
 		Map<String, Class<?>[]> map = new HashMap<String, Class<?>[]>();
 		for (int i = 0; i < packetname.length; i++) {
 			//加载指定包下的实体类和子包
-			loadClass(map,packetname[i]);
+			Set<Class<?>> clazzs = scanner.scan(new String[]{packetname[i]}, Table.class);
+			map.put(packetname[i], clazzs.toArray(new Class[clazzs.size()]));
 		}
 		return map;
 	}

@@ -53,9 +53,8 @@ class StandardSession implements Session,Closed{
 			ThreadLocalTransaction.remove();
 			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new ContextException(e);
 		}
-		return false;
 	}
 	
 	/**
@@ -74,7 +73,7 @@ class StandardSession implements Session,Closed{
 		try {
 			conn.setAutoCommit(autoCommit);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new ContextException(e);
 		}
 	}
 
@@ -85,7 +84,7 @@ class StandardSession implements Session,Closed{
 				transaction.commit();
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new ContextException(e);
 		}
 	}
 	
@@ -120,8 +119,8 @@ class StandardSession implements Session,Closed{
 		try {
 			success = (Boolean)insertContext.execute(object, null, null);
 		} catch (ContextException e) {
-			// 
-			e.printStackTrace();
+			//
+			throw e;
 		}
 		return success;
 	}
@@ -132,8 +131,8 @@ class StandardSession implements Session,Closed{
 		try {
 			success = (Boolean)deleteContext.execute(clazz, wheres, wherevalues);
 		} catch (ContextException e) {
-			// 
-			e.printStackTrace();
+			//
+			throw e;
 		}
 		return success;
 	}
@@ -144,7 +143,7 @@ class StandardSession implements Session,Closed{
 			success = (Boolean)deleteContext.executeByPrimaryKey(clazz, primaryKeyValue);
 		} catch (ContextException e) {
 			// 
-			e.printStackTrace();
+			throw e;
 		}
 		return success;
 	}
@@ -163,8 +162,7 @@ class StandardSession implements Session,Closed{
 		try {
 			list = selectContext.execute(clazz, wheres, wherevalues);
 		} catch (ContextException e) {
-			// 
-			e.printStackTrace();
+			throw e;
 		}
 		return list;
 	}
